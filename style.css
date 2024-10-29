@@ -1,0 +1,450 @@
+
+  *{
+    font-family: "Kanit", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+
+
+  
+header {
+  position: fixed; /*Fixes the position of the header.*/
+  left: 0;
+  right: 0; /*Stretches the header across the top of the viewport.*/
+  top: 0;
+  padding: 0 5%; /* padding top 0 and bottom 0 5% on left and right*/
+  height: 70px;
+  background-color: darkblue;
+  z-index: 100;
+}
+
+header .logo {
+  float: left;
+  color: orange;
+  font-size: 20px;
+  display: flex; /*Uses flexbox for layout.*/
+  font-weight: 600;
+  width: 40%;
+  align-items: center; /* Centers the items vertically within the logo container. */
+  height: 100%;
+  animation: slideFromLeft 1s forwards;
+ 
+}
+
+.logo img:hover{
+  transform: scale(1.2,1.2) !important;
+
+}
+
+header .menu {
+  float: right;
+  padding: 0;
+  margin: 0;
+  width: 60%;
+  display: flex;
+  justify-content: center; /*Distributes the navigation links evenly along the main axis with equal space around them.*/
+  align-items: center;
+  height: 100%;
+  animation: slideFromleft 1s forwards;
+}
+
+header .menu li {
+  list-style-type: none;
+}
+
+header .menu a {
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  color: white;
+  padding: 0 30px;
+
+}
+
+header .menu a:hover {
+  transition: all 0.3s ease;
+  font-size: 20px;
+  color: orange;
+}
+
+header .book_me {
+  background-color: orange;
+  border-radius: 50px;
+  color: darkblue !important;
+  font-weight: 600;
+  font-size: 16px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+header .book_me:hover {
+  background-color: darkblue;
+  transition: all ease-in-out 0.4s;
+  border-color: wheat;
+  border: 2px solid wheat;
+  color: orange !important;
+}
+
+/*css for logo animation from left*/
+  @keyframes slideFromLeft{
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+  }
+
+  /*css for menu animation from right*/
+  @keyframes slideFromleft{
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+  }
+
+
+
+  /*responsive css for header */
+  @media screen and (max-width:480px){ /*apply these styles to scrrens 480px wide or smaller*/
+
+    /*logo*/
+    .logo img {
+      width: 100%;
+       
+      
+    }
+
+    /*menu*/
+    header .menu{
+      float: none;
+      position: fixed;
+      left: 0; /*align the menu to the left edge*/
+      right: 0;
+      top: 70px; /*position the menu below the header*/
+      bottom: 100%; /*hide the menu initially by pushing it offscreen*/
+      width: auto;
+      height: auto;
+      flex-direction: column; /*stacks menu items vertically (in a column)*/
+      transition: all 0.3s ease-in-out;
+      justify-content: space-evenly;  /*even spacing between menu items*/
+      overflow: hidden; /*hides overflowing content*/
+
+    }
+
+  }
+
+
+
+  /* hide the checkbox that controls the menu */
+  #menu-btn{
+    visibility: hidden;
+    position: absolute; 
+  }
+
+  /* css for the three line of the humburger menu */
+  .line{
+    width: 30px;
+    height: 5px;
+    background-color: white;
+    margin: 5px;
+    border-radius: 3px;
+    transition: all 0.5s ease-in-out;
+  }
+
+
+  /* icon list container (where the humburger icon will appear) */
+  .icon-list{
+    position: absolute;
+    right: 5%; /*move it 5% away from the right side*/
+    top: 50%; /*position it vertically in the middle of the header*/
+    display: none;   /*initially hidden on non-mobile screens*/
+    transform: translateY(-50%); /*center the icon vertically*/
+  }
+
+  
+
+  /* css for humburger (menu) for table screens */
+
+  @media screen and (max-width:768px){ /*apply these css to screens 768px wide or smaller*/
+
+    /* logo css  */
+
+    .logo img{
+      width: 100%;
+    }
+
+    /* css for menu */
+
+    header .menu{
+      position: fixed;
+      left: 0; /*align the menu to the left edge*/
+      right: 0;
+      top: 70px; /*position the menu below the header*/
+      bottom: 100%; /*hide the menu initially by pushing it offscrren*/
+      width: auto;
+      height: auto;
+      flex-direction: column;
+      transition: all 0.3s ease-in-out;
+      justify-content: space-evenly;  /*even spacing between menu items*/
+      overflow: hidden;
+    }
+
+
+  /* when the checkbox is checked, show the menu  */
+
+  header :checked ~ .menu { /*:checked is a pseudo-class in CSS that applies styles when a checkbox or radio button is checked,  and the ~ is the general sibling combinator. it selects all elements that are sibilings of a specified element. */
+
+    bottom: 0; /*slide the menu up to make it visible*/
+    background-color: darkblue;
+
+  }
+
+  /*show the hamburger icon in mobile view*/
+  header .icon-list{
+    display: block; /*make the icon visible*/
+  }
+
+
+  /* transform the first line of the hamburger into part of an "X" (top-left) */
+
+header :checked ~ .icon-list .line:nth-child(1){
+  transform: translateY(10px) rotate(255deg);  /*move it down and rotate*/
+}
+
+/* Transform thr third line of the hamburger into part of an "X" (bottom-right) */
+header :checked ~ .icon-list .line:nth-child(3){
+  transform: translateY(-10px) rotate(-255deg); /*move it up and rotate*/
+ }
+
+ /* hide the middle line to complete the "X" */
+ header :checked ~ .icon-list .line:nth-child(2){
+  opacity: 0; /*make the seconf line invisible*/
+ }
+
+/* NOTE: :nth-child is a CSS pseudo-class selector that targets elements based on thier position within a group of sibling elements .  Meaning: select the nth child element 
+
+:nth-child(1) - selects the first child element
+:nth-child(2) - selects the second child element
+:nth-child(3) - selects the third child element
+
+*/
+
+
+  }
+
+/* css for banner */
+
+.banner{
+  background-color: darkblue;
+  height: 500px;
+  display: flex;
+  padding-top: 80px;
+  align-items: center;
+  font-size: 20px;
+  justify-content: space-around;
+}
+
+.about{
+  margin-top: 20px;
+  color: white;
+  display: flex;
+  width: 60%;
+  padding: 20px;
+  flex-direction: column;
+
+}
+
+/* css for profile pic starts */
+
+.profile_pic{
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 8px solid wheat;
+}
+
+.profile_pic img{
+  height: 100%;
+  width: 100%;
+  transition: 0.4s ease;
+}
+
+.profile_pic img:hover{
+  content: url(wwwwwwwwwww.jpg);
+  transform: scale(1.2,1.2);
+}
+
+.profile_pic:hover{
+  border: 8px solid orangered;
+}
+
+/* css for profile pic ends */
+
+/* responsive for tablet devices and below */
+@media screen and (max-width: 768px){
+  .banner{
+    flex-direction: column;
+    height: auto;
+  }
+
+}
+  
+/* css for banner ends */
+
+/* css for download cv button starts */
+
+.cv_btn{
+  background-color: orangered;
+  width: 15%;
+  text-decoration: none;
+  padding: 5px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  transition: 0.2s ease-in;
+
+}
+
+.cv_btn:hover{
+  background-color: darkblue;
+  border: 2px solid white;
+  color: orange;
+  border-radius: 30px;
+}
+
+/* css for responsive cv button */
+@media screen and (max-width:768px) {
+  .cv_btn {
+    width: 50%;
+  }
+  
+}
+
+/* css for download cv button ends */
+
+
+
+/* about section css starts */
+.about_section{
+  width: 50%;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about_section h2{
+  text-align: center;
+}
+
+/* about section css ends */
+
+/* Works section css starts */
+
+.works_section{
+  width: 80%;
+  margin-top: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  
+}
+
+
+
+.works_box{
+  display: flex;
+  justify-content:center;
+  padding-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  animation: fadeIn  2s ease-out forwards;
+
+
+ 
+}
+
+.works_box img{
+  width: 320px;
+  height: auto; 
+  margin: 0; 
+  padding: 10px;
+
+
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .work_section {
+    width: 90%;
+  }
+
+  .works_box img {
+    width: 45%; /* Adjust width for medium screens */
+  }
+}
+
+
+
+
+
+/*css for works animation*/
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Start fully transparent */
+  }
+  100% {
+    opacity: 1; /* End fully opaque */
+  }
+}
+
+
+/* Works section css ends */
+
+
+/* services section css starts */
+
+.services_section h2{
+  margin-top: 50px;
+  text-align: center;
+}
+
+.services_section p{
+  text-align: center;
+}
+
+.services_cnt{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  
+}
+
+.footer{
+  background-color: gray;
+  display: flex;
+  height: 80px;
+  text-align: center;
+  justify-content: center;
+  color: black;
+ }
+
+
+ 
+  
+
+
+
+
+/* services section css ends */
