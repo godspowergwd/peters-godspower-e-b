@@ -442,7 +442,7 @@ header :checked ~ .icon-list .line:nth-child(3){
 
  .contact{
   text-align: center;
-  background-color: blue;
+  background-color: rgb(255, 66, 8);
   color: white;
   font-size: 30px;
   margin-bottom: 20;
