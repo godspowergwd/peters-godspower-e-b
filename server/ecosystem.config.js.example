@@ -1,0 +1,80 @@
+// PM2 Ecosystem Configuration File
+// Example: rename to ecosystem.config.js and customize
+// Run with: pm2 start ecosystem.config.js --env production (or other env)
+
+module.exports = {
+  apps : [{
+    name   : "marketing-app-server", // Your application's name
+    script : "./src/server.js",      // Path to the entry file of your application
+    // cwd: "/path/to/your/app/server", // Optional: Current working directory
+    // args: "--production",          // Optional: Arguments to pass to the script
+
+    // --- Process Management ---
+    instances : "1", // Or "max" to use all available CPUs, or a specific number
+    exec_mode : "cluster", // Enables clustering (use "fork" for single instance)
+                           // Consider "fork" mode if your app isn't designed for clustering or uses in-memory state extensively without a shared store like Redis.
+                           // For this project with in-memory stores, "fork" is safer initially.
+
+    // --- Monitoring ---
+    watch: false, // Disable watching in production; use CI/CD for updates
+                  // For development, you might set this to true or an array of paths.
+    // max_memory_restart: "300M", // Optional: Restart if it exceeds memory limit
+
+    // --- Logging ---
+    // log_date_format: "YYYY-MM-DD HH:mm Z", // Date format for logs
+    // out_file: "./logs/pm2-out.log",       // Path for standard output logs
+    // error_file: "./logs/pm2-error.log",   // Path for error logs
+    // merge_logs: true,                     // Merge logs from all instances if in cluster mode
+
+    // --- Environment Variables ---
+    // Different environments can be defined.
+    // These will be set as process.env variables.
+    // It's often better to manage sensitive env vars outside this file (e.g., via .env files loaded by your app or platform-level env vars).
+    // However, PM2 can load them if specified.
+    env: {
+      NODE_ENV: "development",
+      // Other common dev variables
+    },
+    env_production : {
+      NODE_ENV: "production",
+      PORT: 5000, // Ensure this matches your production setup
+      // --- IMPORTANT: Production Environment Variables ---
+      // These should ideally be managed by your deployment platform's environment variable settings
+      // or a secure .env file not committed to git.
+      // Example (replace with actual values or remove if managed externally):
+      // DB_USER: "prod_db_user",
+      // DB_PASSWORD: "prod_db_password_very_secret",
+      // DB_HOST: "prod_db_host",
+      // DB_NAME: "marketing_app_db_prod",
+      // JWT_SECRET: "your_production_jwt_secret_very_strong_and_long",
+      // STRIPE_SECRET_KEY: "sk_live_yourstripesecretkey",
+      // STRIPE_WEBHOOK_SECRET: "whsec_yourlivewebhooksecret",
+      // SENDGRID_API_KEY: "your_production_sendgrid_api_key",
+      // FROM_EMAIL: "noreply@yourproductiondomain.com",
+      // CLIENT_URL: "https://yourproductionfrontend.com"
+    },
+    env_staging: {
+        NODE_ENV: "staging",
+        PORT: 5001,
+        // Staging specific variables
+    }
+
+    // --- Deployment ---
+    // Example for deploying with `pm2 deploy production setup` and `pm2 deploy production`
+    // This requires SSH access and PM2 setup on the target server.
+    // deploy: {
+    //   production: {
+    //     user: "your_ssh_user",
+    //     host: "your_server_ip_or_domain",
+    //     ref: "origin/main", // Git branch to deploy
+    //     repo: "git@github.com:your_username/your_repo.git", // Your repository
+    //     path: "/var/www/your_app_path_on_server", // Path on the server
+    //     "post-deploy": "cd server && npm install && pm2 reload ecosystem.config.js --env production",
+    //     // You might also need to run database migrations here
+    //   },
+    //   staging: {
+    //     // Staging server config
+    //   }
+    // }
+  }]
+}
